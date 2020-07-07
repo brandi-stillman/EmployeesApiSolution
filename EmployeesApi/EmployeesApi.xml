@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>EmployeesApi</name>
+    </assembly>
+    <members>
+        <member name="T:EmployeesApi.Controllers.OrderProcessorController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:EmployeesApi.Controllers.OrderProcessorController.#ctor(EmployeesApi.Services.ISystemTime)">
+            <summary>
+            
+            </summary>
+            <param name="clock"></param>
+        </member>
+        <member name="M:EmployeesApi.Controllers.OrderProcessorController.PlaceOrder(EmployeesApi.Controllers.OrderRequest)">
+            <summary>
+            
+            </summary>
+            <param name="order"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

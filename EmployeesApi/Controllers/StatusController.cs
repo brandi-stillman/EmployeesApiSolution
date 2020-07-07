@@ -1,5 +1,7 @@
-﻿using EmployeesApi.Services;
+﻿using EmployeesApi.Models;
+using EmployeesApi.Services;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using System;
 
 namespace EmployeesApi.Controllers
@@ -26,6 +28,8 @@ namespace EmployeesApi.Controllers
             return Ok(response);
         }
 
+        [SwaggerResponse(200)]
+        [SwaggerResponse(404, "Opps.... a problem", typeof(ErrorResponse))]
         [HttpGet("books/{bookId:int}")]
         public ActionResult GetABook(int bookId)
         {

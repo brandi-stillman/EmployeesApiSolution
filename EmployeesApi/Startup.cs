@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
+using System.Reflection;
 
 namespace EmployeesApi
 {
@@ -20,7 +22,23 @@ namespace EmployeesApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddSingleton<ISystemTime, SystemTime>();
+            services.AddTransient<ISystemTime, SystemTime>();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "A title fam",
+                    Description = "",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "BStillman",
+                        Email = "brandi_stillman@progressive.com"
+                    }
+                });
+                var xmlPath = $"{Assembly.GetExecutingAssembly().Location}";
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -30,7 +48,11 @@ namespace EmployeesApi
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseSwagger();
+            app.UseSwaggerUI(config =>
+            {
+                config.SwaggerEndpoint("/swagger/v1/swagger.json", "Savage Api");
+            });
             app.UseRouting();
 
             app.UseAuthorization();
