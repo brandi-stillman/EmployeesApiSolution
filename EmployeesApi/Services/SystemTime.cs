@@ -1,17 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace EmployeesApi.Services
 {
     public class SystemTime : ISystemTime
     {
         DateTime Created;
-
         public SystemTime()
         {
             Created = DateTime.Now;
         }
-
-        public DateTime GetCreated()
+        public DateTime GetCreatedAt()
         {
             return Created;
         }
@@ -20,10 +21,6 @@ namespace EmployeesApi.Services
         {
             return DateTime.Now;
         }
-
-        public DateTime GetDevelopmentDay()
-        {
-            return new DateTime(2020, 7, 6, 15, 30, 0);
-        }
+       
     }
 }

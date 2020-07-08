@@ -23,7 +23,7 @@ namespace EmployeesApiIntegrationTests
         public async Task PlacingAnOrderBeforeCutoffShipsToday()
         {
             //before the cutoff
-            _factory.SystemTimeToUse = new DateTime(2020, 7, 7);
+            //_factory.SystemTimeToUse = new DateTime(2020, 7, 7);
 
             // i place an order
             var response = await _client.PostAsJsonAsync("/orders", new OrderToSend());

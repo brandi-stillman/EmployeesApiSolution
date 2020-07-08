@@ -5,10 +5,9 @@ using System.Threading.Tasks;
 
 namespace EmployeesApi.Models
 {
-    public class ErrorResponse
+    public class PostEmployeeRequest
     {
-        public string Title { get; set; }
-        public string Type { get; set;  }
-
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
     }
 }

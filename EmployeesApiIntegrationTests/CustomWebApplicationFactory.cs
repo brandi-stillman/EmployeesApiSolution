@@ -10,49 +10,42 @@ using System.Text;
 namespace EmployeesApiIntegrationTests
 {
     public class CustomWebApplicationFactory<TStartup> :
-        WebApplicationFactory<TStartup> where TStartup : class
+    WebApplicationFactory<TStartup> where TStartup : class
     {
-        public DateTime SystemTimeToUse { get; set; }
+
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             builder.ConfigureServices(services =>
             {
-                var descriptor = services.SingleOrDefault(d =>
-                d.ServiceType == typeof(ISystemTime));
-                if (descriptor != null)
+                foreach (var kvp in deps)
                 {
-                    services.Remove(descriptor);
-                }
+                    var descriptor = services.SingleOrDefault(d =>
+                        d.ServiceType == kvp.Key
 
-                services.AddTransient<ISystemTime, TestingSystemTime>();
-                var sp = services.BuildServiceProvider();
-                using (var scope = sp.CreateScope())
-                {
-                    var scopedServices = scope.ServiceProvider;
-                    var st = scopedServices.GetRequiredService<ISystemTime>();
-                    ((TestingSystemTime)st).TimeToReturn = SystemTimeToUse;
+                    );
+                    if (descriptor != null)
+                    {
+                        services.Remove(descriptor);
+                    }
+                    services.AddSingleton(kvp.Key, kvp.Value);
+
                 }
+                var sp = services.BuildServiceProvider();
+                using var scope = sp.CreateScope();
+                HandleScopedServices(scope);
+
             });
         }
-    }
 
-    public class TestingSystemTime : ISystemTime
-    {
-        public DateTime TimeToReturn { get; set; }
-
-        public DateTime GetCreated()
+        protected virtual void HandleScopedServices(IServiceScope scope)
         {
-            return DateTime.Now;
+
         }
 
-        public DateTime GetCurrent()
+        protected Dictionary<Type, object> deps = new Dictionary<Type, object>();
+        protected void AddTestDouble<TService>(TService dep)
         {
-            return TimeToReturn;
-        }
-
-        public DateTime GetDevelopmentDay()
-        {
-            throw new NotImplementedException();
+            deps.Add(typeof(TService), dep);
         }
     }
 }

@@ -8,10 +8,11 @@ namespace EmployeesApi.Controllers
 {
     public class ErrorController : ControllerBase
     {
+
         [HttpGet("/error")]
         public IActionResult Error()
         {
-            return Problem();
+            return Problem();  // RFC 7807
         }
     }
 }
